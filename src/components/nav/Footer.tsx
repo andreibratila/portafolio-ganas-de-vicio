@@ -1,10 +1,40 @@
+"use client";
+import { useRef } from "react";
+
 import Link from "next/link";
-import { LineFooter } from "./LineFooter";
 import Image from "next/image";
 
+import gsap from "gsap";
+import { useGSAP } from "@gsap/react";
+
+import { useLoaderStore } from "@/stores";
+
+import { LineFooter } from "./LineFooter";
+import { cn } from "@/utils";
+
 export const Footer = () => {
+  const openMenu = useLoaderStore((state) => state.openMenu);
+  const animationComplete = useLoaderStore((state) => state.animationComplete);
+  const footer = useRef<HTMLDivElement>(null);
+
+  useGSAP(
+    () => {
+      if (!footer.current) return;
+      gsap.from(footer.current, {
+        duration: 1,
+        y: 100,
+        ease: "power2.inOut",
+      });
+    },
+    { scope: footer, dependencies: [animationComplete] }
+  );
+
+  if (!animationComplete) return null;
   return (
-    <footer className="fixed z-[2] bottom-[0%] top-auto left-[0%] right-[0%]">
+    <footer
+      ref={footer}
+      className={cn("fixed w-full z-[2] bottom-0", openMenu && "hidden")}
+    >
       <div className="pl-[1.81vh] pr-[2.81vh]">
         <div className="flex place-content-between items-center">
           <div className="h-[3.45vh]  space-x-11 justify-start items-center p-[0.81vh] flex">

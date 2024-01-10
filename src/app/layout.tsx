@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import { Footer, NavbarTop } from "@/components/nav";
+import { GsapTransition, MenuOpened } from "@/components";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -19,9 +20,11 @@ export default function RootLayout({
     <html lang="en">
       <body className={inter.className}>
         <div className="box-border">
+          <GsapTransition />
           <NavbarTop />
           {children}
           <Footer />
+          <MenuOpened />
         </div>
       </body>
     </html>
